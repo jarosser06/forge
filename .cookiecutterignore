@@ -1,0 +1,15 @@
+# OS files  
+.DS_Store
+Thumbs.db
+
+# Temp files
+*.tmp
+*.temp
+*~
+
+# Test artifacts
+test_forge.sh
+TEST_SCRIPT.md
+
+# Git stuff
+.git/

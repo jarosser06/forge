@@ -1,0 +1,58 @@
+{
+  "servers": {
+    "graphiti": {
+      "command": "/home/dev/.local/bin/uv",
+      "args": [
+        "run",
+        "--isolated", 
+        "--directory",
+        "/mcp-servers/graphiti/mcp_server",
+        "--project",
+        ".",
+        "graphiti_mcp_server.py",
+        "--transport",
+        "stdio"
+      ],
+      "env": {
+        "NEO4J_URI": "bolt://neo4j:7687",
+        "NEO4J_USER": "neo4j",
+        "NEO4J_PASSWORD": "neo4password",
+        "OPENAI_API_KEY": "${OPENAI_API_KEY}"
+      }
+    },
+    "github-mcp-server": {
+      "command": "docker",
+      "args": [
+        "run", "-i", "--rm",
+        "-e", "GITHUB_PERSONAL_ACCESS_TOKEN=${GITHUB_PERSONAL_ACCESS_TOKEN}",
+        "ghcr.io/github/github-mcp-server:latest",
+        "stdio"
+      ]
+    },
+    "terraform-mcp-server": {
+      "command": "docker",
+      "args": [
+        "run", "-i", "--rm",
+        "hashicorp/terraform-mcp-server"
+      ]
+    },
+    "task-master-ai": {
+      "command": "npx",
+      "args": [
+        "-y", 
+        "--package=task-master-ai", 
+        "task-master-ai"
+      ],
+      "env": {
+        "OPENAI_API_KEY": "${OPENAI_API_KEY}"
+      }
+    },
+    "filesystem-mcp-server": {
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-filesystem", "/workspaces/forge"],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      }
+    }
+  }
+}

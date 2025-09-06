@@ -1,0 +1,39 @@
+version: "3.8"
+services:
+  # Main development environment
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    hostname: forge
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - GITHUB_PERSONAL_ACCESS_TOKEN=${GITHUB_PERSONAL_ACCESS_TOKEN}
+    volumes:
+      - ..:/workspaces/forge:cached
+      - ${HOME}/.ssh:/home/dev/.ssh:ro
+      - ${HOME}/.claude:/home/dev/.claude:rw
+    networks:
+      - forge-network
+    depends_on:
+      - neo4j
+    # Keep container running
+    command: sleep infinity
+  # Neo4j graph database - Required for Graphiti
+  neo4j:
+    image: neo4j:5.26
+    ports:
+      - "7687:7687"
+      - "7474:7474"
+    environment:
+      NEO4J_AUTH: neo4j/neo4password
+    volumes:
+      - neo4j_data:/data
+    restart: unless-stopped
+    networks:
+      - forge-network
+volumes:
+  neo4j_data:
+networks:
+  forge-network:
+    driver: bridge

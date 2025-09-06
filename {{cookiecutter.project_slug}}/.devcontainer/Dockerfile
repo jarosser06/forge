@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/javascript-node:24-bullseye
+FROM mcr.microsoft.com/devcontainers/base:ubuntu
 
 # Install additional system packages
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
@@ -32,27 +32,20 @@ RUN wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | tee /usr/s
     && echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list \
     && apt-get update && apt-get -y install terraform
 
-# Install Playwright system dependencies
+# Install minimal Playwright system dependencies (no audio)
 RUN apt-get -y install \
         libnss3 \
-        libatk-bridge2.0-0 \
-        libdrm2 \
         libxkbcommon0 \
         libxcomposite1 \
         libxdamage1 \
         libxrandr2 \
         libgbm1 \
-        libxss1 \
-        libasound2 \
-        libatspi2.0-0 \
         libgtk-3-0
 
 # Languages (Python 3.11, Docker) installed via devcontainer features
 
-# Rename existing node user to dev 
-RUN usermod -l dev node \
-    && groupmod -n dev node \
-    && usermod -d /home/dev -m dev \
+# Create dev user with UID/GID to match host user (501:20)
+RUN useradd -u 501 -g 20 -m -s /bin/bash dev \
     && echo 'dev ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/dev \
     && chmod 0440 /etc/sudoers.d/dev
 

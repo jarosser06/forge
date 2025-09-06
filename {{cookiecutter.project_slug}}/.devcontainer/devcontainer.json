@@ -57,7 +57,7 @@
     }
   },
   "forwardPorts": [8080, 8443],
-  "postCreateCommand": "bash .devcontainer/setup.sh",
+  "postCreateCommand": "cd /workspaces/{{cookiecutter.project_slug}} && bash .devcontainer/setup.sh",
   "remoteEnv": {
     "PATH": "${containerEnv:PATH}",
     "OPENAI_API_KEY": "${localEnv:OPENAI_API_KEY}",

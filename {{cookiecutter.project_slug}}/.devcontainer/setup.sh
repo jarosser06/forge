@@ -22,7 +22,7 @@ echo "🤖 Installing MCP servers..."
 # Create shared MCP servers directory and setup Graphiti
 echo "🧠 Setting up Graphiti MCP server in shared directory..."
 sudo mkdir -p /mcp-servers
-sudo chown dev:dev /mcp-servers
+sudo chown dev /mcp-servers
 git clone https://github.com/getzep/graphiti.git /mcp-servers/graphiti
 cd /mcp-servers/graphiti && uv sync || echo "⚠️  Graphiti setup failed"
 

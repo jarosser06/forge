@@ -16,3 +16,5 @@ cookiecutter /path/to/this/repo
 - **Standard workflow**: generate project → open in VS Code → reopen in container → build
 
 That's it. `./attach_env` to jump into the running container.
+
+In the dev shell, a `workspace` command is available as an alias to quickly navigate to `/workspace/<project-name>`.

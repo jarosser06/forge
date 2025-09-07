@@ -31,4 +31,8 @@ echo "🎭 Installing Playwright browsers..."
 npx --yes playwright install chromium firefox webkit
 npx --yes playwright install-deps
 
+# Add workspace alias to bashrc
+echo "📁 Adding workspace alias..."
+echo 'alias workspace="cd /workspaces/{{cookiecutter.project_slug}}"' >> ~/.bashrc
+
 echo "🚀 {{cookiecutter.project_slug}} devcontainer is ready for development!"
